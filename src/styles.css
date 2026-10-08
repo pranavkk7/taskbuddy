@@ -1,0 +1,548 @@
+/* ---------- Design tokens ---------- */
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f3f4fb;
+  --surface: #ffffff;
+  --surface-2: #f4f5fb;
+  --border: #e3e5f0;
+  --border-strong: #c9cce0;
+  --text: #14162b;
+  --muted: #62667f;
+  --accent: #4f46e5;
+  --accent-text: #4338ca;
+  --accent-soft: rgba(79, 70, 229, 0.12);
+  --accent-border: rgba(79, 70, 229, 0.45);
+  --danger: #dc2626;
+  --shadow: 0 30px 70px -30px rgba(30, 27, 75, 0.35);
+  --blob-1: rgba(99, 102, 241, 0.28);
+  --blob-2: rgba(168, 85, 247, 0.22);
+  --tab-active: #ffffff;
+  --brand-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0b0c15;
+  --surface: #141625;
+  --surface-2: #1b1e32;
+  --border: #272b45;
+  --border-strong: #3b4066;
+  --text: #eef0fa;
+  --muted: #9a9fbd;
+  --accent: #818cf8;
+  --accent-text: #a5b4fc;
+  --accent-soft: rgba(129, 140, 248, 0.16);
+  --accent-border: rgba(129, 140, 248, 0.5);
+  --danger: #f87171;
+  --shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.8);
+  --blob-1: rgba(79, 70, 229, 0.3);
+  --blob-2: rgba(124, 58, 237, 0.22);
+  --tab-active: #2b3052;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Page and card ---------- */
+.page {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 16px 24px;
+  overflow: hidden;
+}
+
+/* Two soft colour blobs behind the card. */
+.page::before,
+.page::after {
+  content: '';
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.page::before {
+  top: -220px;
+  left: -160px;
+  background: var(--blob-1);
+}
+
+.page::after {
+  top: 120px;
+  right: -260px;
+  background: var(--blob-2);
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 540px;
+  padding: 26px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+
+/* ---------- Header ---------- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.date {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.icon-button:hover {
+  border-color: var(--accent-border);
+  transform: rotate(18deg);
+}
+
+/* ---------- Progress ---------- */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 22px;
+  padding: 18px 20px;
+  color: #fff;
+  background: var(--brand-gradient);
+  border-radius: 22px;
+  box-shadow: 0 18px 36px -18px rgba(79, 70, 229, 0.75);
+}
+
+.ring {
+  position: relative;
+  flex: none;
+  width: 76px;
+  height: 76px;
+}
+
+.ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* start the ring at 12 o'clock */
+}
+
+.ring-track,
+.ring-value {
+  fill: none;
+  stroke-width: 8;
+}
+
+.ring-track {
+  stroke: rgba(255, 255, 255, 0.25);
+}
+
+.ring-value {
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ring-label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.progress-count {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.progress-message {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.92rem;
+}
+
+/* ---------- Add form ---------- */
+.add {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.add input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.add input::placeholder {
+  color: var(--muted);
+}
+
+.add input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.add-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 18px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--brand-gradient);
+  border: 0;
+  border-radius: 16px;
+  transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+}
+
+.add-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -10px rgba(79, 70, 229, 0.8);
+}
+
+.add-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Filters ---------- */
+.filters {
+  display: flex;
+  gap: 6px;
+  margin-top: 18px;
+  padding: 5px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.filter {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 10px;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.filter.active {
+  color: var(--text);
+  background: var(--tab-active);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.count {
+  padding: 1px 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-text);
+  background: var(--accent-soft);
+  border-radius: 999px;
+}
+
+/* ---------- Task list ---------- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px 4px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  animation: task-in 0.28s ease-out both;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.task:hover {
+  border-color: var(--accent-border);
+}
+
+.task-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 12px;
+  min-width: 0;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+/* The real checkbox stays in the page for keyboards and screen readers, but is not drawn. */
+.task-main input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.checkbox {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  color: transparent;
+  border: 2px solid var(--border-strong);
+  border-radius: 8px;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.task-main:hover .checkbox {
+  border-color: var(--accent);
+}
+
+.task-main input:checked + .checkbox {
+  color: #fff;
+  background: var(--brand-gradient);
+  border-color: transparent;
+  animation: pop 0.25s ease;
+}
+
+.task-main input:focus-visible + .checkbox {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.task-title {
+  overflow-wrap: anywhere;
+  transition: color 0.2s ease;
+}
+
+.task.done .task-title {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.delete {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  transition: color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.delete:hover {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+}
+
+/* With a mouse, the delete button appears on hover or keyboard focus. On touch it is always shown. */
+@media (hover: hover) {
+  .delete {
+    opacity: 0;
+  }
+
+  .task:hover .delete,
+  .delete:focus-visible {
+    opacity: 1;
+  }
+}
+
+/* ---------- Empty state ---------- */
+.empty {
+  padding: 28px 16px 20px;
+  text-align: center;
+  border: 1px dashed var(--border-strong);
+  border-radius: 18px;
+}
+
+.empty-card {
+  fill: var(--surface-2);
+  stroke: var(--border);
+}
+
+.empty-box {
+  fill: var(--accent);
+}
+
+.empty-box.muted,
+.empty-line {
+  fill: var(--border-strong);
+}
+
+.empty-check {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.empty-title {
+  margin: 10px 0 0;
+  font-weight: 700;
+}
+
+.empty-text {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 36px;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.link {
+  padding: 6px 8px;
+  font-weight: 600;
+  color: var(--accent-text);
+  background: none;
+  border: 0;
+  border-radius: 8px;
+}
+
+.link:hover {
+  background: var(--accent-soft);
+}
+
+.hint {
+  position: relative;
+  z-index: 1;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* ---------- Motion ---------- */
+@keyframes task-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 480px) {
+  .page {
+    padding: 16px 12px 20px;
+  }
+
+  .app {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .add-button {
+    padding: 0 16px;
+  }
+
+  .add-button span {
+    display: none; /* the plus icon is enough on a phone */
+  }
+}
